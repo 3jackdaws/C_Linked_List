@@ -9,6 +9,12 @@
 #include <stdio.h>
 #include "LinkedList.h"
 
+int Print(int data)
+{
+    printf("%d\n", data);
+    return 0;
+}
+
 int main(int argc, const char * argv[])
 {
     linked_list_t list;
@@ -19,9 +25,9 @@ int main(int argc, const char * argv[])
     {
         Insert_At_Beginning(list, i);
     }
-    
-    Print_List(list);
-    Print_List_Backwards(list);
+    int * mydata = malloc(sizeof(int));
+    Remove_From_Beginning(list, mydata);
+    Traverse(list, &Print);
 
     
     

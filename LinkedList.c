@@ -89,26 +89,22 @@ int Remove_From_Beginning(linked_list_t list, int* data)
     {
         List * LinkedList = ((List *)list);
     
-        data = &LinkedList->head->data;
-        if(((List *)list)->count == 0)
+        *data = LinkedList->head->data;
+        LinkedList->count--;
+        if(LinkedList->count == 0)
         {
-            
-            free(LinkedList->head);
             LinkedList->head = NULL;
             LinkedList->tail = NULL;
         }
         else
         {
-            Node * hold = LinkedList->head;
             LinkedList->head = LinkedList->head->next;
             LinkedList->head->prev = NULL;
         }
+        free(LinkedList->head);
+        return 0;
     }
-    else
-    {
-        return -1;
-    }
-    return 0;
+    return -1;
     
 }
 
@@ -142,4 +138,16 @@ void Print_List_Backwards(linked_list_t list)
         travel = travel->prev;
     }
     printf("%d\n",travel->data);
+}
+
+int Traverse(linked_list_t list, void (*action)(int data))
+{
+    Node * travel = ((List *)list)->head;
+    while(travel->next != 0)
+    {
+        (*action)(travel->data);
+        travel = travel->next;
+    }
+    (*action)(travel->data);
+    return 0;
 }

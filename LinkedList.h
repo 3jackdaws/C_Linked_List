@@ -66,3 +66,5 @@ int Count(linked_list_t);
 void Print_List(linked_list_t list);
 
 void Print_List_Backwards(linked_list_t list);
+
+int Traverse(linked_list_t list, void (*action)(int data));
