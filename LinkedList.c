@@ -58,8 +58,9 @@ int Insert_At_Beginning(linked_list_t list, int data)
         LinkedList->head->data = data;
         LinkedList->head->next = pre_head;
         pre_head->prev = ((List *)list)->head;
-        LinkedList->count++;
+        
     }
+    LinkedList->count++;
     return 0;
 }
 
@@ -79,8 +80,9 @@ int Insert_At_End(linked_list_t list, int data)
         LinkedList->tail->data = data;
         LinkedList->tail->prev = pre_tail;
         pre_tail->next = LinkedList->tail;
-        LinkedList->count++;
+        
     }
+    LinkedList->count++;
     return 0;
 }
 

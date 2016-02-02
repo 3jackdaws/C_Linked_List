@@ -12,7 +12,7 @@
 
 int Print(int data)
 {
-    printf("%d  ", data);
+    printf("%d ", data);
     return 0;
 }
 
@@ -67,7 +67,7 @@ int main(int argc, const char * argv[])
     printf("Reinit List\n");
     //free(list);
     list = Init_List();
-    printf("Insert in order 10 random numbers.\n");
+    printf("Insert in order 20 random numbers.\n");
     for (int i = 0; i<20; i++)
     {
         int ran = rand()%100;
