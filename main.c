@@ -18,6 +18,8 @@ int Print(int data)
 
 int main(int argc, const char * argv[])
 {
+//    linked_list_t list = Init_List();
+//    Delete_List(list);
     linked_list_t list;
  
     printf("Init List\n");
@@ -82,6 +84,7 @@ int main(int argc, const char * argv[])
     Delete_List(list2);
     Init_List(list2);
     Delete_List(list2);
+    
     
     
     return 0;

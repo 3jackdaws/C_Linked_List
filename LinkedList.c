@@ -25,7 +25,7 @@ linked_list_t* Init_List()
 
 int Delete_List(linked_list_t list)
 {
-    if(list != NULL)
+    if(list != NULL && ((List *)list)->count > 0)
     {
         List * LinkedList = ((List *)list);
         Node * travel = LinkedList->head;
@@ -36,7 +36,6 @@ int Delete_List(linked_list_t list)
         }
         if(travel != NULL)
             free(travel);
-        
     }
     if(&list)
         free(list);
