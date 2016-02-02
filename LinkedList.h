@@ -1,4 +1,6 @@
 #pragma once
+#include <stdlib.h>
+#include <stdio.h>
 //*************************************************
 // linked list definition
 //
@@ -68,3 +70,5 @@ void Print_List(linked_list_t list);
 void Print_List_Backwards(linked_list_t list);
 
 int Traverse(linked_list_t list, void (*action)(int data));
+
+int Insert_In_Order(linked_list_t list, int data);

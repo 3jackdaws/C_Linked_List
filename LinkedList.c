@@ -1,7 +1,6 @@
 
 
 #include "LinkedList.h"
-#define NULL (void *)0
 
 typedef struct Node
 {
@@ -21,57 +20,66 @@ typedef struct List
 
 linked_list_t* Init_List()
 {
-    int s = sizeof(List);
     return (linked_list_t *)calloc(1, sizeof(List));
 }
 
 int Delete_List(linked_list_t list)
 {
-    Node * travel =((List *)list)->head;
-    while(travel->next)
+    if(list != NULL)
     {
-        travel = travel->next;
-        free(travel->prev);
+        List * LinkedList = ((List *)list);
+        Node * travel = LinkedList->head;
+        while(travel->next)
+        {
+            travel = travel->next;
+            free(travel->prev);
+        }
+        if(travel != NULL)
+            free(travel);
+        
     }
-    free(travel);
-    free(list);
+    if(&list)
+        free(list);
     return 0;
 }
 
 int Insert_At_Beginning(linked_list_t list, int data)
 {
-    if(((List *)list)->head == 0)
+    List * LinkedList = ((List*)list);
+    if(LinkedList->head == 0)
     {
-        ((List *)list)->head = ((List *)list)->tail = calloc(1, sizeof(Node));
-        ((List *)list)->head->data = data;
+        LinkedList->head = LinkedList->tail = calloc(1, sizeof(Node));
+        LinkedList->head->data = data;
     }
     else
     {
         Node * pre_head = ((List *)list)->head;
-        ((List *)list)->head = calloc(1, sizeof(Node));
-        ((List *)list)->head->data = data;
-        ((List *)list)->head->next = pre_head;
+        LinkedList->head = calloc(1, sizeof(Node));
+        LinkedList->head->data = data;
+        LinkedList->head->next = pre_head;
         pre_head->prev = ((List *)list)->head;
-        ((List *)list)->count++;
+        LinkedList->count++;
     }
     return 0;
 }
 
 int Insert_At_End(linked_list_t list, int data)
 {
-    if(((List *)list)->head == 0)
+    
+    List * LinkedList = ((List*)list);
+    if(LinkedList->head == 0)
     {
-        ((List *)list)->head = ((List *)list)->tail = calloc(1, sizeof(Node));
-        ((List *)list)->head->data = data;
+        LinkedList->head = LinkedList->tail = calloc(1, sizeof(Node));
+        LinkedList->head->data = data;
     }
     else
     {
-        Node * pre_tail = ((List *)list)->tail;
-        ((List *)list)->tail = calloc(1, sizeof(Node));
-        ((List *)list)->tail->data = data;
-        ((List *)list)->tail->prev = pre_tail;
-        pre_tail->next = ((List *)list)->tail;
-        ((List *)list)->count++;
+        Node * pre_tail = LinkedList->tail;
+        LinkedList->tail = calloc(1, sizeof(Node));
+        LinkedList->tail->data = data;
+        LinkedList->tail->prev = pre_tail;
+        pre_tail->next = LinkedList->tail;
+        LinkedList->count++;
     }
     return 0;
 }
@@ -88,20 +96,22 @@ int Remove_From_Beginning(linked_list_t list, int* data)
     if(((List *)list)->count > 0)
     {
         List * LinkedList = ((List *)list);
-    
         *data = LinkedList->head->data;
         LinkedList->count--;
         if(LinkedList->count == 0)
         {
+            free(LinkedList->head);
             LinkedList->head = NULL;
             LinkedList->tail = NULL;
         }
         else
         {
+            Node * hold = LinkedList->head;
             LinkedList->head = LinkedList->head->next;
             LinkedList->head->prev = NULL;
+            free(hold);
         }
-        free(LinkedList->head);
+        
         return 0;
     }
     return -1;
@@ -110,7 +120,28 @@ int Remove_From_Beginning(linked_list_t list, int* data)
 
 int Remove_From_End(linked_list_t list, int* data)
 {
-    return 0;
+    if(((List *)list)->count > 0)
+    {
+        List * LinkedList = ((List *)list);
+        *data = LinkedList->tail->data;
+        LinkedList->count--;
+        if(LinkedList->count == 0)
+        {
+            free(LinkedList->head);
+            LinkedList->head = NULL;
+            LinkedList->tail = NULL;
+        }
+        else
+        {
+            Node * hold = LinkedList->tail;
+            LinkedList->tail = LinkedList->tail->prev;
+            LinkedList->tail->next = NULL;
+            free(hold);
+        }
+        
+        return 0;
+    }
+    return -1;
 }
 
 int Count(linked_list_t list)
@@ -149,5 +180,50 @@ int Traverse(linked_list_t list, void (*action)(int data))
         travel = travel->next;
     }
     (*action)(travel->data);
+    return 0;
+}
+
+int Insert_In_Order(linked_list_t list, int data)
+{
+    List * LinkedList = (List *)list;
+    
+    Node * travel = LinkedList->head;
+    while (travel != NULL && travel->data < data)
+    {
+        travel = travel->next;
+    }
+    if(travel)
+    {
+        if(travel == LinkedList->head)
+        {
+            Insert_At_Beginning(list, data);
+            LinkedList->count--;
+        }
+        else if(travel == LinkedList->tail)
+        {
+            Node * nn = calloc(1, sizeof(Node));
+            nn->data = data;
+            nn->next = LinkedList->tail;
+            nn->prev = LinkedList->tail->prev;
+            LinkedList->tail->prev->next = nn;
+            LinkedList->tail->prev = nn;
+        }
+        else
+        {
+            Node * nn = calloc(1, sizeof(Node));
+            nn->data = data;
+            nn->prev = travel->prev;
+            nn->next = travel;
+            travel->prev->next = nn;
+            travel->prev = nn;
+        }
+        
+    }
+    else
+    {
+        Insert_At_End(list, data);
+        LinkedList->count--;
+    }
+    LinkedList->count++;
     return 0;
 }
