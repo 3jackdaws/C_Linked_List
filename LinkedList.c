@@ -37,8 +37,9 @@ int Delete_List(linked_list_t list)
         if(travel != NULL)
             free(travel);
     }
-    if(&list)
-        free(list);
+    free(list);
+    list = NULL;
+    
     return 0;
 }
 

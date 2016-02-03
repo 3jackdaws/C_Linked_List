@@ -80,9 +80,11 @@ int main(int argc, const char * argv[])
     Traverse(list, (void *)&Print);
     printf("\n");
     Delete_List(list);
+    
     linked_list_t list2;
     Delete_List(list2);
-    Init_List(list2);
+    list2 = Init_List();
+    Delete_List(list2);
     Delete_List(list2);
     
     
